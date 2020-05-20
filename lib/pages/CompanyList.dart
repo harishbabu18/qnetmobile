@@ -82,6 +82,14 @@ class _CompanyListState extends State<CompanyList> {
       rows.add(DataRow(
         cells: [
           DataCell(Text(listOfData[i]["id"].toString())),
+          DataCell(Text(listOfData[i]["name"].toString())),
+          DataCell(Text(listOfData[i]["name"].toString())),
+          DataCell(Text(listOfData[i]["name"].toString())),
+          DataCell(Text(listOfData[i]["name"].toString())),
+          DataCell(Text(listOfData[i]["name"].toString())),
+          DataCell(Text(listOfData[i]["name"].toString())),
+          DataCell(Text(listOfData[i]["name"].toString())),
+          DataCell(Text(listOfData[i]["name"].toString())),
           DataCell(Text(listOfData[i]["name"].toString()))
         ]
       )
@@ -99,21 +107,64 @@ class _CompanyListState extends State<CompanyList> {
         title: Text('User List'),
       ),
       body: Container(
-        child:DataTable(
-          sortAscending: sortasc,
-          sortColumnIndex: colindex,
-          columns: [
-            DataColumn(label: Text("ID"),
-                onSort:(columnIndex, ascending) {
-              sortData("id",columnIndex, ascending);
-            }),
-            DataColumn(label: Text("Name"),
-                onSort: (columnIndex, ascending) {
-                  sortData("name",columnIndex, ascending);
-                })
-          ],
-          rows:_getCompanyData(companyDTO),
-      ),)
+        child:SingleChildScrollView(scrollDirection: Axis.vertical,
+            child:SingleChildScrollView(scrollDirection: Axis.horizontal,
+              child: DataTable(
+                sortAscending: sortasc,
+                sortColumnIndex: colindex,
+                columns: [
+                  DataColumn(label: Text("ID"),
+                      onSort:(columnIndex, ascending) {
+                        sortData("id",columnIndex, ascending);
+                      }),
+                  DataColumn(label: Text("Name"),
+                      onSort: (columnIndex, ascending) {
+                        sortData("name",columnIndex, ascending);
+                      })
+                  ,
+                  DataColumn(label: Text("Name"),
+                      onSort: (columnIndex, ascending) {
+                        sortData("name",columnIndex, ascending);
+                      })
+                  ,
+                  DataColumn(label: Text("Name"),
+                      onSort: (columnIndex, ascending) {
+                        sortData("name",columnIndex, ascending);
+                      })
+                  ,
+                  DataColumn(label: Text("Name"),
+                      onSort: (columnIndex, ascending) {
+                        sortData("name",columnIndex, ascending);
+                      })
+                  ,
+                  DataColumn(label: Text("Name"),
+                      onSort: (columnIndex, ascending) {
+                        sortData("name",columnIndex, ascending);
+                      })
+                  ,
+                  DataColumn(label: Text("Name"),
+                      onSort: (columnIndex, ascending) {
+                        sortData("name",columnIndex, ascending);
+                      })
+                  ,
+                  DataColumn(label: Text("Name"),
+                      onSort: (columnIndex, ascending) {
+                        sortData("name",columnIndex, ascending);
+                      })
+                  ,
+                  DataColumn(label: Text("Name"),
+                      onSort: (columnIndex, ascending) {
+                        sortData("name",columnIndex, ascending);
+                      })
+                  ,
+                  DataColumn(label: Text("Name"),
+                      onSort: (columnIndex, ascending) {
+                        sortData("name",columnIndex, ascending);
+                      })
+                ],
+                rows:_getCompanyData(companyDTO),
+              ),), ),
+        )
     );
 
   }
