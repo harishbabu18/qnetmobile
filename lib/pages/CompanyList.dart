@@ -1,11 +1,6 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-import 'package:qnetmobile/model/company.dart';
 
 
 class CompanyList extends StatefulWidget {
@@ -22,17 +17,8 @@ class _CompanyListState extends State<CompanyList> {
   var count=0;
   var page=1;
   var totalpages=1;
-  final List<Map<String, String>> listOfColumns = [
-    {"Name": "AAAAAA", "Number": "1", "State": "Yes"},
-    {"Name": "BBBBBB", "Number": "2", "State": "no"},
-    {"Name": "CCCCCC", "Number": "3", "State": "Yes"}
-  ];
 
   void  getData() async {
-//    var response = await http.get(
-//      "http://192.168.1.5:8080/company/?max=10&offset=0",
-//
-//    );
 
     Response response;
     Dio dio = new Dio();
@@ -53,9 +39,25 @@ class _CompanyListState extends State<CompanyList> {
     print("Company page");
   }
 
+  void sortData( ) async {
+
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("http://192.168.1.5:8080/company/?max=10&offset=0");
+    var company = response.data;
+
+    this.setState(() {
+      companyDTO = company["company"];
+    });
+
+    print('data: $companyDTO');
+
+  }
+
   List<DataRow> _getCompanyData(List listOfData) {
     List<DataRow> rows = [];
-    for(var i = 0; i < listOfData.length; i++){
+    var sizeof = listOfData == null ?0 : listOfData.length;
+    for(var i = 0; i < sizeof; i++){
       rows.add(DataRow(
         cells: [
           DataCell(Text(listOfData[i]["id"].toString())),
@@ -78,8 +80,8 @@ class _CompanyListState extends State<CompanyList> {
       body: Container(
         child:DataTable(
           columns: [
-            DataColumn(label: Text("ID")),
-            DataColumn(label: Text("Name"))
+            DataColumn(label: Text("ID"),onSort: null),
+            DataColumn(label: Text("Name"),onSort: null)
           ],
           rows:_getCompanyData(companyDTO),
       ),)
