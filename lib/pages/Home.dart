@@ -54,13 +54,14 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Center(
-          child: GridView.count(crossAxisCount: 2,
+          child: GridView.count(
+            crossAxisCount: 2,
             padding: const EdgeInsets.all(20),
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.all(8),
+//              padding: const EdgeInsets.all(8),
                 child: IconButton(icon: Icon(Icons.business),onPressed: (){
                   Navigator.push(
                     context,
@@ -71,7 +72,12 @@ class _HomeState extends State<Home> {
               ),
               Container(
                 padding: const EdgeInsets.all(8),
-                child: IconButton(icon: Icon(Icons.contacts),onPressed: (){},),
+                child: IconButton(icon: Icon(Icons.contacts),onPressed: (){
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CompanyList()),
+                  );
+                  },),
                 color: Colors.yellow,
               ),
               Container(

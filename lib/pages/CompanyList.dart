@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +28,10 @@ class _CompanyListState extends State<CompanyList> {
 
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("http://192.168.1.5:8080/company/?max=10&offset=0&sort=$sort&order=$order");
-    var company = response.data;
+    response = await dio.get(
+        "http://192.168.1.5:8080/company/?max=10&offset=0&sort=$sort&order=$order"
+    );
+    var company =response.data;
 
     this.setState(() {
       companyDTO = company["company"];
@@ -43,7 +47,7 @@ class _CompanyListState extends State<CompanyList> {
     print("Company page");
   }
 
-   sortData(String sortname,int columnIndex, bool ascending) async{
+   sortData(String sortname,int columnIndex, bool ascending)  async{
     this.setState(() {
       sortasc=!sortasc;
       colindex=columnIndex;
@@ -67,7 +71,9 @@ class _CompanyListState extends State<CompanyList> {
 
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("http://192.168.1.5:8080/company/?max=10&offset=0&sort=$sort&order=$order");
+    response = await dio.get(
+        "http://192.168.1.5:8080/company/?max=10&offset=0&sort=$sortname&order=$order"
+    );
     var company = response.data;
     this.setState(() {
       companyDTO = company["company"];
@@ -81,16 +87,20 @@ class _CompanyListState extends State<CompanyList> {
     for(var i = 0; i < sizeof; i++){
       rows.add(DataRow(
         cells: [
-          DataCell(Text(listOfData[i]["id"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString()))
+          DataCell(Text(listOfData[i]["id"].toString()?? '')),
+          DataCell(Text(listOfData[i]["name"]?? '')),
+          DataCell(Text(listOfData[i]["description"]?? '')),
+          DataCell(Text(listOfData[i]["email"]?? '')),
+          DataCell(Text((listOfData[i]["addresslineone"]?? '')+',\n'+
+                        (listOfData[i]["addresslinetwo"]?? '')+',\n'+
+                        (listOfData[i]["state"]?? '')+'-'+
+                        (listOfData[i]["zip"]?? '')+', '+
+                        (listOfData[i]["country"]?? '')?? '')),
+          DataCell(Text(listOfData[i]["establishedDate"]?? '')),
+          DataCell(Text(listOfData[i]["createdBy"]?? '')),
+          DataCell(Text(listOfData[i]["dateCreated"]?? '')),
+          DataCell(Text(listOfData[i]["lastUpdatedBy"]?? '')),
+
         ]
       )
       );
@@ -107,7 +117,7 @@ class _CompanyListState extends State<CompanyList> {
         title: Text('User List'),
       ),
       body: Container(
-        child:SingleChildScrollView(scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(scrollDirection: Axis.vertical,
             child:SingleChildScrollView(scrollDirection: Axis.horizontal,
               child: DataTable(
                 sortAscending: sortasc,
@@ -122,48 +132,45 @@ class _CompanyListState extends State<CompanyList> {
                         sortData("name",columnIndex, ascending);
                       })
                   ,
-                  DataColumn(label: Text("Name"),
+                  DataColumn(label: Text("Description"),
                       onSort: (columnIndex, ascending) {
-                        sortData("name",columnIndex, ascending);
+                        sortData("description",columnIndex, ascending);
                       })
                   ,
-                  DataColumn(label: Text("Name"),
+                  DataColumn(label: Text("Email"),
                       onSort: (columnIndex, ascending) {
-                        sortData("name",columnIndex, ascending);
+                        sortData("email",columnIndex, ascending);
                       })
                   ,
-                  DataColumn(label: Text("Name"),
+                  DataColumn(label: Text("Address"),
                       onSort: (columnIndex, ascending) {
-                        sortData("name",columnIndex, ascending);
+                        sortData("country",columnIndex, ascending);
                       })
                   ,
-                  DataColumn(label: Text("Name"),
+                  DataColumn(label: Text("Established Date"),
                       onSort: (columnIndex, ascending) {
-                        sortData("name",columnIndex, ascending);
+                        sortData("establishedDAte",columnIndex, ascending);
                       })
                   ,
-                  DataColumn(label: Text("Name"),
+                  DataColumn(label: Text("Created By"),
                       onSort: (columnIndex, ascending) {
-                        sortData("name",columnIndex, ascending);
+                        sortData("establishedDAte",columnIndex, ascending);
                       })
                   ,
-                  DataColumn(label: Text("Name"),
+                  DataColumn(label: Text("Created On"),
                       onSort: (columnIndex, ascending) {
-                        sortData("name",columnIndex, ascending);
+                        sortData("dateCreated",columnIndex, ascending);
                       })
                   ,
-                  DataColumn(label: Text("Name"),
+                  DataColumn(label: Text("Last Updated By"),
                       onSort: (columnIndex, ascending) {
-                        sortData("name",columnIndex, ascending);
+                        sortData("establishedDAte",columnIndex, ascending);
                       })
                   ,
-                  DataColumn(label: Text("Name"),
-                      onSort: (columnIndex, ascending) {
-                        sortData("name",columnIndex, ascending);
-                      })
                 ],
                 rows:_getCompanyData(companyDTO),
-              ),), ),
+              ),
+            ), ),
         )
     );
 
