@@ -1,4 +1,5 @@
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'dart:convert';
@@ -28,17 +29,15 @@ class _CompanyListState extends State<CompanyList> {
   ];
 
   void  getData() async {
-    var response = await http.get(
-      "http://192.168.1.5:8080/company/?max=10&offset=0",
+//    var response = await http.get(
+//      "http://192.168.1.5:8080/company/?max=10&offset=0",
+//
+//    );
 
-    );
-
-//    Response response;
-//    Dio dio = new Dio();
-//    response = await dio.get("http://192.168.1.5:8080/company/?max=10&offset=0");
-//    var company = response.data;
-
-    var company = json.decode(response.body);
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("http://192.168.1.5:8080/company/?max=10&offset=0");
+    var company = response.data;
 
     this.setState(() {
       companyDTO = company["company"];
@@ -54,38 +53,19 @@ class _CompanyListState extends State<CompanyList> {
     print("Company page");
   }
 
-  DataRow _getDataRow(index) {
-    return DataRow(
-      cells: <DataCell>[
-       // DataCell(Text(companyDTO[index]["id"])??"Empty"),
-        //DataCell(Text(companyDTO[index]["name"])??"Empty"),
-        DataCell(Text(index)),
-      ],
-    );
-  }
-
-  Widget _getCompanyData(List listOfData) {
+  List<DataRow> _getCompanyData(List listOfData) {
     List<DataRow> rows = [];
-
-    listOfData.forEach((stat){
-      stat.item.forEach((row){
-        rows.add(
-            DataRow(
-                cells: [
-                  DataCell(
-                    Text(row.symbol),
-                  ),
-                  DataCell(
-                    Text(row.amount),
-                  ),
-                  DataCell(
-                    Text("${row.symbol}"),
-                  ),
-                ]
-            )
-        );
-      });
-    });
+    for(var i = 0; i < listOfData.length; i++){
+      rows.add(DataRow(
+        cells: [
+          DataCell(Text(listOfData[i]["id"].toString())),
+          DataCell(Text(listOfData[i]["name"].toString()))
+        ]
+      )
+      );
+    }
+    return rows;
+  }
 
 
   @override
@@ -101,7 +81,7 @@ class _CompanyListState extends State<CompanyList> {
             DataColumn(label: Text("ID")),
             DataColumn(label: Text("Name"))
           ],
-          rows: _getCompanyData(),
+          rows:_getCompanyData(companyDTO),
       ),)
     );
 
