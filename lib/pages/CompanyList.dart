@@ -61,7 +61,7 @@ class _CompanyListState extends State<CompanyList> {
       rows.add(DataRow(
         cells: [
           DataCell(Text(listOfData[i]["id"].toString())),
-          DataCell(Text(listOfData[i]["name"].toString()))
+          DataCell(Text(listOfData[i]["name"].toString())),
         ]
       )
       );
@@ -81,7 +81,7 @@ class _CompanyListState extends State<CompanyList> {
         child:DataTable(
           columns: [
             DataColumn(label: Text("ID"),onSort: null),
-            DataColumn(label: Text("Name"),onSort: null)
+            DataColumn(label: Text("Name"),onSort: null),
           ],
           rows:_getCompanyData(companyDTO),
       ),)

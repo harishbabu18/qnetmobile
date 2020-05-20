@@ -71,7 +71,12 @@ class _HomeState extends State<Home> {
               ),
               Container(
                 padding: const EdgeInsets.all(8),
-                child: IconButton(icon: Icon(Icons.contacts),onPressed: (){},),
+                child: IconButton(icon: Icon(Icons.contacts),onPressed: (){
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CompanyList()),
+                  );
+                  },),
                 color: Colors.yellow,
               ),
               Container(
